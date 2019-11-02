@@ -16,7 +16,7 @@ namespace FileScanner
             }
             else
             {
-                dirName = @"C:\music\altan";
+                dirName = Directory.GetCurrentDirectory();
             }
 
             if (!Directory.Exists(dirName))
@@ -24,6 +24,8 @@ namespace FileScanner
                 Console.WriteLine($"{dirName} is not a folder I can scan");
                 return;
             }
+
+            Console.WriteLine($"Scanning folder {dirName}...");
 
             // Some metrics
             int fileCount = 0;
@@ -38,7 +40,7 @@ namespace FileScanner
 
             foreach( var filename in Directory.EnumerateFiles(dirName, "*", SearchOption.AllDirectories))
             {
-                Console.WriteLine($"Checking {filename}...");
+                // Console.WriteLine($"Found {filename}...");
 
                 fileCount += 1;
                 try
@@ -61,9 +63,7 @@ namespace FileScanner
 
             var elapsed = sw.ElapsedMilliseconds;
 
-            Console.WriteLine($"Took {elapsed}ms to scan {dirName}, found {fileCount} files, skipped {skippedFiles}, bytes read {bytesRead} total={total}");
-
-            Console.ReadLine();
+            Console.WriteLine($"Finished in {elapsed}ms, found {fileCount} files, skipped {skippedFiles}, bytes read {bytesRead}, checksum {total}");
         }
     }
 }
